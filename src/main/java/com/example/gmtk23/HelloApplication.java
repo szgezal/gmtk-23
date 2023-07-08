@@ -22,18 +22,18 @@ public class HelloApplication extends Application {
     public void start(Stage stage) throws IOException {
         Group group = new Group();
         GridPane gp = new GridPane();
-        gp.setLayoutX(20);
-        gp.setLayoutY(20);
+        gp.setLayoutX(100);
+        gp.setLayoutY(100);
         for(int i = 0; i < 40; i++) {
             ColumnConstraints column = new ColumnConstraints(10);
             gp.getColumnConstraints().add(column);
             RowConstraints row = new RowConstraints(10);
             gp.getRowConstraints().add(row);
         }
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 40; i++) {
             gameArea.add(new ArrayList<>());
-            for (int j = 0; j < 10; j++) {
-                Rectangle r = new Rectangle(10, 10, Color.color(0, 0, 1));
+            for (int j = 0; j < 40; j++) {
+                Rectangle r = new Rectangle(10, 10, Color.color(0.3, 0.9, 0.2));
                 gameArea.get(i).add(r);
                 gp.add(r, i, j);
                 r.setX(i);
@@ -45,7 +45,7 @@ public class HelloApplication extends Application {
                 });
             }
         }
-        gp.setGridLinesVisible(false);
+        gp.setGridLinesVisible(true);
         group.getChildren().add(gp);
         Scene scene = new Scene(group, 600, 600);
         stage.setScene(scene);
