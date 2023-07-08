@@ -12,10 +12,10 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-public class HelloApplication extends Application {
+public class ReverseSnake extends Application {
     protected static ArrayList<ArrayList<Rectangle>> gameArea = new ArrayList<>();
 
-    public void updateGameArea(Apple apple) {
+    public void updateGameArea(Apple apple, Snake snake) {
         for (ArrayList<Rectangle> row: gameArea) {
             for (Rectangle r: row) {
                 if (r.getX() == apple.getX() && r.getY() == apple.getY())
@@ -24,11 +24,15 @@ public class HelloApplication extends Application {
                     r.setFill(Color.color(0.29, 0.9, 0.2));
             }
         }
+        for (Coord c: snake.getSnake()) {
+            gameArea.get(c.posX()).get(c.posY()).setFill(Color.color(0, 0.4, 0));
+        }
     }
 
     @Override
     public void start(Stage stage) {
         Apple apple = new Apple(10, 10);
+        Snake snake = new Snake();
 
         Group group = new Group();
         GridPane gp = new GridPane();
@@ -57,6 +61,11 @@ public class HelloApplication extends Application {
         }
         gp.setGridLinesVisible(true);
         group.getChildren().add(gp);
+
+        for (Coord c: snake.getSnake()) {
+            gameArea.get(c.posX()).get(c.posY()).setFill(Color.color(0, 0.4, 0));
+        }
+
         Scene scene = new Scene(group, 600, 600);
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.UP) {
@@ -67,6 +76,8 @@ public class HelloApplication extends Application {
                 apple.setX(apple.getX() - 1);
             } if (e.getCode() == KeyCode.RIGHT) {
                 apple.setX(apple.getX() + 1);
+            } if (e.getCode() == KeyCode.SPACE) {
+                snake.updateSnake(apple);
             }
             if (apple.getX() < 0) {
                 apple.setX(40);
@@ -80,8 +91,7 @@ public class HelloApplication extends Application {
             if (apple.getY() > 40) {
                 apple.setY(0);
             }
-            System.out.println(apple.getX() + " " + apple.getY());
-            updateGameArea(apple);
+            updateGameArea(apple, snake);
         });
         stage.setScene(scene);
         stage.show();
