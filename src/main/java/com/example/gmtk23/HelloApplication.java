@@ -33,7 +33,7 @@ public class HelloApplication extends Application {
         for (int i = 0; i < 40; i++) {
             gameArea.add(new ArrayList<>());
             for (int j = 0; j < 40; j++) {
-                Rectangle r = new Rectangle(10, 10, Color.color(0.3, 0.9, 0.2));
+                Rectangle r = new Rectangle(10, 10, Color.color(0.29, 0.9, 0.2));
                 gameArea.get(i).add(r);
                 gp.add(r, i, j);
                 r.setX(i);
