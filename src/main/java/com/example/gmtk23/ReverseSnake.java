@@ -1,6 +1,7 @@
 package com.example.gmtk23;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -12,8 +13,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ReverseSnake extends Application {
-    protected static ArrayList<ArrayList<Rectangle>> gameArea = new ArrayList<>();
+    private static final ArrayList<ArrayList<Rectangle>> gameArea = new ArrayList<>();
+    private final Timer timer = new Timer();
 
     public void updateGameArea(Apple apple, Snake snake) {
         for (ArrayList<Rectangle> row: gameArea) {
@@ -76,8 +81,6 @@ public class ReverseSnake extends Application {
                 apple.setX(apple.getX() - 1);
             } if (e.getCode() == KeyCode.RIGHT) {
                 apple.setX(apple.getX() + 1);
-            } if (e.getCode() == KeyCode.SPACE) {
-                snake.updateSnake(apple);
             }
             if (apple.getX() < 0) {
                 apple.setX(40);
@@ -95,6 +98,22 @@ public class ReverseSnake extends Application {
         });
         stage.setScene(scene);
         stage.show();
+
+        //minden másodpercben 2x frissíti a kígyó pozícióját
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                Runnable guiModification = () -> {
+                    snake.updateSnake(apple);
+                    updateGameArea(apple, snake);
+                };
+                Platform.runLater(guiModification);
+            }
+        }, 0, 200);
+    }
+
+    public void stop() {
+        timer.cancel();
     }
 
     public static void main(String[] args) {
