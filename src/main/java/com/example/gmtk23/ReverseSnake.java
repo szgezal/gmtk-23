@@ -72,6 +72,7 @@ public class ReverseSnake extends Application {
         }
 
         Scene scene = new Scene(group, 600, 600);
+
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.UP) {
                 apple.setY(apple.getY() - 1);
@@ -83,13 +84,13 @@ public class ReverseSnake extends Application {
                 apple.setX(apple.getX() + 1);
             }
             if (apple.getX() < 0) {
-                apple.setX(40);
+                apple.setX(39);
             }
             if (apple.getX() > 40) {
                 apple.setX(0);
             }
             if (apple.getY() < 0) {
-                apple.setY(40);
+                apple.setY(39);
             }
             if (apple.getY() > 40) {
                 apple.setY(0);
